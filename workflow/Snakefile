@@ -1,0 +1,27 @@
+
+include: "rules/common.smk"
+include: "rules/ascp_forward_md5.smk"
+include: "rules/ascp_reverse_md5.smk"
+include: "rules/ascp_forward.smk"
+include: "rules/ascp_reverse.smk"
+include: "rules/md5dum_check_forward.smk"
+include: "rules/md5dum_check_reverse.smk"
+include: "rules/fastp.smk"
+include: "rules/bowtie2_chromosome.smk"
+include: "rules/bowtie2_hifi.smk"
+include: "rules/samtools_view_chromosome.smk"
+include: "rules/samtools_view_hifi.smk"
+include: "rules/samtools_sort_chromosome.smk"
+include: "rules/samtools_sort_hifi.smk"
+
+rule all:
+    input:
+        expand(
+             "results/samtools_sort_chromosome/{sample}.sam",
+             sample=sample_data.index.tolist(),
+            ),
+        expand(
+             "results/samtools_sort_hifi/{sample}.sam",
+             sample=sample_data.index.tolist(),
+            ),
+        
