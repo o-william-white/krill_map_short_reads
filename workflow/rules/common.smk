@@ -18,6 +18,10 @@ else:
     sys.exit(f"Error: samples file '{config['samples']}' does not exist")
 
 
+# get reference 
+reference = config["reference"]
+
+
 # functions to get metadata sample list
 def get_ftp_path(wildcards):
     return sample_data.loc[wildcards.sample, "ftp_path"]
@@ -33,5 +37,4 @@ def get_forward_md5(wildcards):
 
 def get_reverse_md5(wildcards):
     return sample_data.loc[wildcards.sample, "reverse_md5"]
-
 

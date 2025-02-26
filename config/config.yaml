@@ -1,3 +1,6 @@
 # path to sample list
 samples: config/sample_list_test.txt
 
+# path to reference
+reference: /home/owhite/scratch/private/data_krill_chromosome_assemblies/krill.chromosome.fa.gz
+

@@ -1,8 +1,8 @@
-rule bowtie2_chromosome:
+rule bowtie2:
     input:
         sample=["results/fastp/{sample}_R1.fastq.gz", "results/fastp/{sample}_R2.fastq.gz"],
         idx=multiext(
-            "/home/owhite/scratch/private/data_krill_chromosome_assemblies/bowtie2_build/krill.chromosome",
+            "results/gunzip_reference/krill.chromosome.fa",
             ".1.bt2l",
             ".2.bt2l",
             ".3.bt2l",
@@ -12,7 +12,7 @@ rule bowtie2_chromosome:
         ),
         #ref="", #Required for CRAM output
     output:
-        temp("results/bowtie2_chromosome/{sample}.sam"),
+        temp("results/bowtie2/{sample}.sam"),
         # idx="",
         # metrics="",
         # unaligned="",
@@ -20,7 +20,7 @@ rule bowtie2_chromosome:
         # unconcordant="",
         # concordant="",
     log:
-        "logs/bowtie2_chromosome/{sample}.log",
+        "logs/bowtie2/{sample}.log",
     params:
         extra="",  # optional parameters
     threads: 8  # Use at least two threads
