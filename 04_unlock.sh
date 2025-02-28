@@ -2,5 +2,7 @@
 
 source activate sm_map_env
 
-snakemake -n --rerun-incomplete
+snakemake --unlock 
+
+echo Complete!
 

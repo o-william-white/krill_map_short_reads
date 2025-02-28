@@ -46,7 +46,7 @@
 <text text-anchor="middle" x="179.62" y="-230.88" font-family="sans" font-size="10.00">picard_markduplicates</text>
 </g>
 <!-- 3&#45;&gt;2 -->
-<g id="edge3" class="edge">
+<g id="edge4" class="edge">
 <title>3&#45;&gt;2</title>
 <path fill="none" stroke="grey" stroke-width="2" d="M202.84,-215.34C213.44,-207.27 226.19,-197.57 237.82,-188.72"/>
 <polygon fill="grey" stroke="grey" stroke-width="2" points="240.26,-190.74 246.1,-181.9 236.02,-185.17 240.26,-190.74"/>
@@ -106,7 +106,7 @@
 <text text-anchor="middle" x="40.62" y="-590.88" font-family="sans" font-size="10.00">ascp_forward</text>
 </g>
 <!-- 8&#45;&gt;7 -->
-<g id="edge11" class="edge">
+<g id="edge12" class="edge">
 <title>8&#45;&gt;7</title>
 <path fill="none" stroke="grey" stroke-width="2" d="M59.3,-575.34C67.47,-567.6 77.25,-558.36 86.29,-549.81"/>
 <polygon fill="grey" stroke="grey" stroke-width="2" points="88.84,-552.32 93.7,-542.9 84.03,-547.23 88.84,-552.32"/>
@@ -118,7 +118,7 @@
 <text text-anchor="middle" x="139.62" y="-590.88" font-family="sans" font-size="10.00">ascp_reverse</text>
 </g>
 <!-- 9&#45;&gt;7 -->
-<g id="edge12" class="edge">
+<g id="edge11" class="edge">
 <title>9&#45;&gt;7</title>
 <path fill="none" stroke="grey" stroke-width="2" d="M133.32,-575.34C130.91,-568.59 128.09,-560.69 125.38,-553.11"/>
 <polygon fill="grey" stroke="grey" stroke-width="2" points="128.68,-551.14 122.02,-542.9 122.09,-553.5 128.68,-551.14"/>
@@ -142,7 +142,7 @@
 <text text-anchor="middle" x="271.62" y="-590.88" font-family="sans" font-size="10.00">gunzip_reference</text>
 </g>
 <!-- 11&#45;&gt;2 -->
-<g id="edge4" class="edge">
+<g id="edge3" class="edge">
 <title>11&#45;&gt;2</title>
 <path fill="none" stroke="grey" stroke-width="2" d="M271.62,-575.07C271.62,-548.13 271.62,-495.62 271.62,-451 271.62,-451 271.62,-451 271.62,-305 271.62,-266.65 271.62,-222.48 271.62,-193.72"/>
 <polygon fill="grey" stroke="grey" stroke-width="2" points="275.13,-193.93 271.62,-183.93 268.13,-193.93 275.13,-193.93"/>
