@@ -1,11 +1,11 @@
 rule picard_markduplicates:
     input:
-        bams="results/samtools_sort/{sample}.sam",
+        bams="results/samtools_sort/{sample}.bam",
         # optional to specify a list of BAMs; this has the same effect
         # of marking duplicates on separate read groups for a sample
         # and then merging
     output:
-        bam="results/dedup/{sample}.sam",
+        bam="results/dedup/{sample}.bam",
         metrics="results/dedup/{sample}.metrics.txt",
     log:
         "logs/picard_markduplicates/{sample}.log",

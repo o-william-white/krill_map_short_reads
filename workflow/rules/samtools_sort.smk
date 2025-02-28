@@ -1,8 +1,8 @@
 rule samtools_sort:
     input:
-        "results/samtools_view/{sample}.sam",
+        "results/samtools_view/{sample}.bam",
     output:
-        "results/samtools_sort/{sample}.sam",
+        temp("results/samtools_sort/{sample}.bam"),
     log:
         "logs/samtools_sort/{sample}.log",
     params:

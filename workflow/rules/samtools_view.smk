@@ -1,12 +1,12 @@
 rule samtools_view:
     input:
-        "results/bowtie2/{sample}.sam",
+        "results/bwa_mem/{sample}.bam",
     output:
-        sam=temp("results/samtools_view/{sample}.sam"),
+        bam=temp("results/samtools_view/{sample}.bam"),
     log:
         "logs/samtools_view/{sample}.log",
     params:
-        extra="-h -F 4 -f 2 -q 10",  # optional params string
+        extra="-h -F 4",  # optional params string
         region="",  # optional region string
     threads: 16
     wrapper:
