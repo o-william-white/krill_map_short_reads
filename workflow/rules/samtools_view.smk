@@ -8,6 +8,6 @@ rule samtools_view:
     params:
         extra="-h -F 4",  # optional params string
         region="",  # optional region string
-    threads: 16
+    threads: 4
     wrapper:
         "v5.0.0/bio/samtools/view"

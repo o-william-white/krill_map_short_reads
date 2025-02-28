@@ -1,8 +1,8 @@
 rule gunzip_reference:
     input:
-        reference
+        "results/seqkit_sliding/krill.chromosome_s2g.fa.gz"
     output:
-        temp("results/gunzip_reference/krill.chromosome.fa")
+        temp("results/seqkit_sliding/krill.chromosome_s2g.fa")
     log:
         "logs/gunzip_reference/gunzip_reference.log",
     threads: 1

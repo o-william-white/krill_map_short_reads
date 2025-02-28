@@ -1,8 +1,8 @@
 rule samtools_faidx:
     input:
-        "results/gunzip_reference/krill.chromosome.fa",
+        "results/seqkit_sliding/krill.chromosome_s2g.fa",
     output:
-        "results/gunzip_reference/krill.chromosome.fa.fai",
+        "results/seqkit_sliding/krill.chromosome_s2g.fa.fai",
     log:
         "logs/samtools_faidx/samtools_faidx.log",
     params:
