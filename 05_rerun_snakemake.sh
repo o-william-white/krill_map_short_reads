@@ -8,6 +8,7 @@ date >> snakemake_log.txt
 snakemake \
    --cores 10 \
    --use-conda \
-   --retries 3 \
-   --rerun-incomplete &>> snakemake_log.txt 
+   --rerun-incomplete &>> snakemake_log.txt
+   #--retries 3 \
+    
 

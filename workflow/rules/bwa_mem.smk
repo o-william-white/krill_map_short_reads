@@ -3,14 +3,16 @@ rule bwa_mem:
         reads=["results/fastp/{sample}_R1.fastq.gz", "results/fastp/{sample}_R2.fastq.gz"],
         idx=multiext("results/seqkit_sliding/krill.chromosome_s2g.fa.gz", ".amb", ".ann", ".bwt", ".pac", ".sa"),
     output:
-        temp("results/bwa_mem/{sample}.bam"),
+        "results/bwa_mem/{sample}.bam",
     log:
         "logs/bwa_mem/{sample}.log",
+    conda:
+        "../envs/bwa_mem.yaml"
     params:
         extra=r"-R '@RG\tID:{sample}\tSM:{sample}'",
-        sorting="samtools",  # Can be 'none', 'samtools' or 'picard'.
-        sort_order="coordinate",  # Can be 'queryname' or 'coordinate'.
-        sort_extra="",  # Extra args for samtools/picard.
     threads: 4
-    wrapper:
-        "v5.8.2/bio/bwa/mem"
+    shell:
+        """
+        bwa mem -t {threads} {params.extra} results/seqkit_sliding/krill.chromosome_s2g.fa.gz {input.reads} | \
+        samtools view -h --threads {threads} -o {output} --output-fmt BAM - &> {log} 
+        """
