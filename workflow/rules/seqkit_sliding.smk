@@ -2,7 +2,7 @@ rule seqkit_sliding:
     input:
         fasta=reference,
     output:
-        fasta="results/seqkit_sliding/krill.chromosome_s2g.fa.gz",
+        fasta=temp("results/seqkit_sliding/krill.chromosome_s2g.fa"),
     log:
         "logs/seqkit_sliding/seqkit_sliding.log",
     params:

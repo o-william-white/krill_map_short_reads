@@ -4,8 +4,8 @@ rule bcftools_mpileup:
              "results/dedup/{sample}.bam",
              sample=sample_data.index.tolist(),
             ),
-        ref="results/seqkit_sliding/krill.chromosome_s2g.fa.gz",  # this can be left out if --no-reference is in options
-        index="results/seqkit_sliding/krill.chromosome_s2g.fa.fai",
+        ref="results/seqkit_sliding/krill.chromosome_s2g_renamed.fa.gz",  # this can be left out if --no-reference is in options
+        index="results/seqkit_sliding/krill.chromosome_s2g_renamed.fa.gz.fai",
     output:
         pileup="bcftools/mpileup.bcf",
     params:

@@ -1,8 +1,9 @@
 rule samtools_view:
     input:
-        "results/bwa_mem/{sample}.bam",
+        "results/bwa_mem/{sample}.sam",
     output:
-        bam=temp("results/samtools_view/{sample}.bam"),
+        bam="results/samtools_view/{sample}.bam",
+        idx="results/samtools_view/{sample}.bai",
     log:
         "logs/samtools_view/{sample}.log",
     params:
@@ -10,4 +11,4 @@ rule samtools_view:
         region="",  # optional region string
     threads: 4
     wrapper:
-        "v5.0.0/bio/samtools/view"
+        "v5.8.2/bio/samtools/view"
