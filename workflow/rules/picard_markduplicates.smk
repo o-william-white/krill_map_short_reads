@@ -16,6 +16,6 @@ rule picard_markduplicates:
         # and which can be used to request RAM during cluster job submission as `{resources.mem_mb}`:
         # https://snakemake.readthedocs.io/en/latest/executing/cluster.html#job-properties
     resources:
-        mem_mb=1024,
+        mem_mb=60000,
     wrapper:
         "v5.5.2/bio/picard/markduplicates"

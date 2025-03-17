@@ -6,7 +6,7 @@ echo -e "\n\nRERUN SNAKEMAKE" >> snakemake_log.txt
 date >> snakemake_log.txt
 
 snakemake \
-   --cores 10 \
+   --cores 32 \
    --use-conda \
    --rerun-incomplete &>> snakemake_log.txt
    #--retries 3 \

@@ -10,7 +10,7 @@ rule bwa_mem:
         "../envs/bwa_mem.yaml"
     params:
         extra=r"-R '@RG\tID:{sample}\tSM:{sample}'",
-    threads: 4
+    threads: 16
     shell:
         """
         bwa mem -t {threads} {params.extra} results/seqkit_sliding/krill.chromosome_s2g_renamed.fa.gz {input.reads} 1> {output} 2> {log} 
