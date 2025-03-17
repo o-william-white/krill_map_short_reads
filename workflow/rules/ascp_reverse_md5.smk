@@ -18,6 +18,6 @@ rule ascp_reverse_md5:
             results/ascp/{params.rev}.tmp &> {log}
         NAM=$(cat results/ascp/{params.rev}.tmp | cut -f 1 -d " ")
         HEX=$(cat results/ascp/{params.rev}.tmp | cut -f 2 -d " ")
-        echo -e "${HEX}  ${NAME}" > results/ascp/{params.rev}
+        echo -e "${{HEX}}  results/ascp/${{NAM}}" > results/ascp/{params.rev}
         rm results/ascp/{params.rev}.tmp
         """

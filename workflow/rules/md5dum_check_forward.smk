@@ -10,6 +10,6 @@ checkpoint md5sum_check_forward:
         "../envs/conda_env.yaml"
     shell:
         """
-        md5sum -c {md5} 1> {out} 2> {log}
+        md5sum -c {input.md5} 1> {output} 2> {log}
         """
 

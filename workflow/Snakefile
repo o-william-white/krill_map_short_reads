@@ -21,5 +21,13 @@ include: "rules/bcftools_call.smk"
 
 rule all:
     input:
+        expand(
+            "results/md5sum_check/{sample}_R1.txt",
+            sample=sample_data.index.tolist(),
+        ),
+        expand(
+            "results/md5sum_check/{sample}_R2.txt",
+            sample=sample_data.index.tolist(),
+        ),
         "bcftools/calls.bcf"
               

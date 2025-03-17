@@ -18,6 +18,6 @@ rule ascp_forward_md5:
             results/ascp/{params.fwd}.tmp &> {log}
         NAM=$(cat results/ascp/{params.fwd}.tmp | cut -f 1 -d " ")
         HEX=$(cat results/ascp/{params.fwd}.tmp | cut -f 2 -d " ")
-        echo -e "${HEX}  ${NAME}" > results/ascp/{params.fwd}
+        echo -e "${{HEX}}  results/ascp/${{NAM}}" > results/ascp/{params.fwd}
         rm results/ascp/{params.fwd}.tmp
         """
