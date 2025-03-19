@@ -1,9 +1,9 @@
 
 include: "rules/common.smk"
-include: "rules/ascp_forward_md5.smk"
-include: "rules/ascp_reverse_md5.smk"
 include: "rules/ascp_forward.smk"
 include: "rules/ascp_reverse.smk"
+include: "rules/ascp_forward_md5.smk"
+include: "rules/ascp_reverse_md5.smk"
 include: "rules/md5dum_check_forward.smk"
 include: "rules/md5dum_check_reverse.smk"
 include: "rules/fastp.smk"
@@ -21,13 +21,49 @@ include: "rules/bcftools_call.smk"
 
 rule all:
     input:
+        #expand(
+        #    "results/ascp_forward/{sample_id}/{fwd}",
+        #    zip,
+        #    sample_id=sample_data.index,
+        #    fwd=sample_data["forward"].to_list(),
+        #),
+        # expand(
+        #    "results/ascp_reverse/{sample_id}/{rev}",
+        #    zip,
+        #    sample_id=sample_data.index,
+        #    rev=sample_data["reverse"].to_list(),
+        #),
+        #expand(
+        #    "results/ascp_forward_md5/{sample_id}/{fwd}",
+        #    zip,
+        #    sample_id=sample_data.index,
+        #    fwd=sample_data["forward_md5"].to_list(),
+        #),
+        #expand(
+        #    "results/ascp_reverse_md5/{sample_id}/{rev}",
+        #    zip,
+        #    sample_id=sample_data.index,
+        #    rev=sample_data["reverse_md5"].to_list(),
+        #),
         expand(
-            "results/md5sum_check/{sample}_R1.txt",
-            sample=sample_data.index.tolist(),
+            "results/md5sum_check_forward/{sample_id}/{fwd}.txt",
+            zip,
+            sample_id=sample_data.index,
+            fwd=sample_data["forward"].to_list(),
+        ),
+         expand(
+            "results/md5sum_check_reverse/{sample_id}/{rev}.txt",
+            zip,
+            sample_id=sample_data.index,
+            rev=sample_data["reverse"].to_list(),
         ),
         expand(
-            "results/md5sum_check/{sample}_R2.txt",
-            sample=sample_data.index.tolist(),
+            "results/fastp/{sample_id}_R1.fastq.gz",
+            sample_id=sample_data.index,
         ),
-        "bcftools/calls.bcf"
+        expand(
+            "results/fastp/{sample_id}_R2.fastq.gz",
+            sample_id=sample_data.index,
+        ),
+        "results/bcftools/calls.bcf"
               

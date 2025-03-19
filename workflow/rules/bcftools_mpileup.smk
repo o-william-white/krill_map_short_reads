@@ -7,10 +7,10 @@ rule bcftools_mpileup:
         ref="results/seqkit_sliding/krill.chromosome_s2g_renamed.fa.gz",  # this can be left out if --no-reference is in options
         index="results/seqkit_sliding/krill.chromosome_s2g_renamed.fa.gz.fai",
     output:
-        pileup="bcftools/mpileup.bcf",
+        pileup="results/bcftools/mpileup.bcf",
     params:
         uncompressed_bcf=False,
-        extra="--max-depth 250 --min-BQ 15",
+        extra="--max-depth 250 --min-BQ 15 --read-groups config/read_groups.txt",
     log:
         "logs/bcftools_mpileup/bcftools_mpileup.log",
     wrapper:

@@ -1,8 +1,8 @@
 rule bcftools_call:
     input:
-        pileup="bcftools/mpileup.bcf",
+        pileup="results/bcftools/mpileup.bcf",
     output:
-        calls="bcftools/calls.bcf",
+        calls="results/bcftools/calls.bcf",
     params:
         uncompressed_bcf=False,
         caller="-m",  # valid options include -c/--consensus-caller or -m/--multiallelic-caller
