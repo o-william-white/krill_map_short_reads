@@ -10,7 +10,7 @@ rule bcftools_mpileup:
         pileup="results/bcftools/mpileup.bcf",
     params:
         uncompressed_bcf=False,
-        extra="--max-depth 250 --min-BQ 15 --read-groups config/read_groups.txt",
+        extra="--max-depth 250 --min-BQ 15 --read-groups config/read_groups_selection.txt",
     log:
         "logs/bcftools_mpileup/bcftools_mpileup.log",
     wrapper:
