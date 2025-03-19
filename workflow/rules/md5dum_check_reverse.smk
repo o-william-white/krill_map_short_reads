@@ -1,15 +1,16 @@
-checkpoint md5sum_check_reverse:
+rule md5sum_check_reverse:
+    params:
+        rev = lambda wildcards: wildcards.rev,
     input:
-        fwd = "results/ascp/{sample}_R2.fq.gz",
-        md5 = "results/ascp/{sample}_R2.fq.gz.md5",
+        rev = "results/ascp_reverse/{sample_id}/{rev}",
+        md5 = "results/ascp_reverse_md5/{sample_id}/{rev}.md5",
     output:
-        "results/md5sum_check/{sample}_R2.txt"       
+        "results/md5sum_check_reverse/{sample_id}/{rev}.txt"
     log:
-        "logs/md5sum_check/{sample}_R2.log",
+        "logs/md5sum_check_reverse/{sample_id}/{rev}.log",
     conda:
         "../envs/conda_env.yaml"
     shell:
         """
-        md5sum -c {md5} 1> {out} 2> {log}
+        md5sum -c {input.md5} 1> {output} 2> {log}
         """
-

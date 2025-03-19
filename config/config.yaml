@@ -1,3 +1,9 @@
 # path to sample list
-samples: config/sample_list_test.txt
+samples: config/sample_list.txt
+
+# path to read groups file
+read_groups: config/read_groups.txt
+
+# path to reference
+reference: /home/krill/krill.chromosome.fa.gz
 

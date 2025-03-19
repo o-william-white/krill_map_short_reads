@@ -1,0 +1,209 @@
+import pandas as pd
+import sys
+from snakemake.utils import min_version
+
+
+sample_data = pd.read_csv("config/sample_list_test.txt", sep="\t").set_index("ID", drop=False)
+
+
+def get_ftp_path(wildcards):
+    return sample_data.loc[wildcards.sample_id, "ftp_path"]
+
+#def get_forward(wildcards):
+#    return sample_data.loc[wildcards.sample_id, "forward"]
+
+def get_fastp_input(wildcards):
+    fwd = sample_data.loc[wildcards.sample_id, "forward"]
+    rev = sample_data.loc[wildcards.sample_id, "reverse"]
+    return [
+        f"results/ascp_forward/{wildcards.sample_id}/{fwd}",
+        f"results/ascp_reverse/{wildcards.sample_id}/{rev}"
+    ]
+
+
+rule all:
+    input:
+        #expand(
+        #    "results/ascp_forward/{sample_id}/{fwd}",
+        #    zip,
+        #    sample_id=sample_data.index,
+        #    fwd=sample_data["forward"].to_list(),
+        #),
+        # expand(
+        #    "results/ascp_reverse/{sample_id}/{rev}",
+        #    zip,
+        #    sample_id=sample_data.index,
+        #    rev=sample_data["reverse"].to_list(),
+        #),
+        #expand(
+        #    "results/ascp_forward_md5/{sample_id}/{fwd}",
+        #    zip,
+        #    sample_id=sample_data.index,
+        #    fwd=sample_data["forward_md5"].to_list(),
+        #),
+        #expand(
+        #    "results/ascp_reverse_md5/{sample_id}/{rev}",
+        #    zip,
+        #    sample_id=sample_data.index,
+        #    rev=sample_data["reverse_md5"].to_list(),
+        #),
+        expand(
+            "results/md5sum_check_forward/{sample_id}/{fwd}.txt",
+            zip,
+            sample_id=sample_data.index,
+            fwd=sample_data["forward"].to_list(),
+        ),
+         expand(
+            "results/md5sum_check_reverse/{sample_id}/{rev}.txt",
+            zip,
+            sample_id=sample_data.index,
+            rev=sample_data["reverse"].to_list(),
+        ),
+        expand(
+            "results/fastp/{sample_id}_R1.fastq.gz",
+            sample_id=sample_data.index,
+        ),
+        expand(
+            "results/fastp/{sample_id}_R2.fastq.gz",
+            sample_id=sample_data.index,
+        ),
+
+rule ascp_forward:
+    params:
+        fwd = lambda wildcards: wildcards.fwd,
+        ftp = get_ftp_path,
+    output:
+        temp("results/ascp_forward/{sample_id}/{fwd}"),
+    log:
+        "logs/ascp_forward/{sample_id}/{fwd}.log",
+    conda:
+        "../envs/aspera-cli.yaml"
+    threads: 1
+    shell:
+        """
+        ascp \
+            -i /home/krill/cngb_keyfile \
+            -P33001 -T -k1 -l1000m \
+            aspera_download@183.239.175.39:{params.ftp}/{params.fwd} \
+            results/ascp_forward/{wildcards.sample_id}/{wildcards.fwd} &> {log}
+        """
+
+rule ascp_reverse:
+    params:
+        rev = lambda wildcards: wildcards.rev,
+        ftp = get_ftp_path,
+    output:
+        temp("results/ascp_reverse/{sample_id}/{rev}"),
+    log:
+        "logs/ascp_reverse/{sample_id}/{rev}.log",
+    conda:
+        "../envs/aspera-cli.yaml"
+    threads: 1
+    shell:
+        """
+        ascp \
+            -i /home/krill/cngb_keyfile \
+            -P33001 -T -k1 -l1000m \
+            aspera_download@183.239.175.39:{params.ftp}/{params.rev} \
+            results/ascp_reverse/{wildcards.sample_id}/{wildcards.rev} &> {log}
+        """
+
+rule ascp_forward_md5:
+    params:
+        fwd_md5 = lambda wildcards: wildcards.fwd_md5,
+        ftp = get_ftp_path,
+    output:
+        temp("results/ascp_forward_md5/{sample_id}/{fwd_md5}.tmp"),
+        "results/ascp_forward_md5/{sample_id}/{fwd_md5}",
+    log:
+        "logs/ascp_forward_md5/{sample_id}/{fwd_md5}.log",
+    conda:
+        "../envs/aspera-cli.yaml"
+    threads: 1
+    shell:
+        """
+        ascp \
+            -i /home/krill/cngb_keyfile \
+            -P33001 -T -k1 -l1000m \
+            aspera_download@183.239.175.39:{params.ftp}/{params.fwd_md5} \
+            results/ascp_forward_md5/{wildcards.sample_id}/{wildcards.fwd_md5}.tmp &> {log}
+        NAM=$(cat results/ascp_forward_md5/{wildcards.sample_id}/{wildcards.fwd_md5}.tmp | cut -f 1 -d " ")
+        HEX=$(cat results/ascp_forward_md5/{wildcards.sample_id}/{wildcards.fwd_md5}.tmp | cut -f 2 -d " ")
+        echo -e "${{HEX}}  results/ascp_forward_md5/{wildcards.sample_id}/${{NAM}}" > results/ascp_forward_md5/{wildcards.sample_id}/{wildcards.fwd_md5}
+        """
+
+rule ascp_reverse_md5:
+    params:
+        rev_md5 = lambda wildcards: wildcards.rev_md5,
+        ftp = get_ftp_path,
+    output:
+        temp("results/ascp_reverse_md5/{sample_id}/{rev_md5}.tmp"),
+        "results/ascp_reverse_md5/{sample_id}/{rev_md5}",
+    log:
+        "logs/ascp_reverse_md5/{sample_id}/{rev_md5}.log",
+    conda:
+        "../envs/aspera-cli.yaml"
+    threads: 1
+    shell:
+        """
+        ascp \
+            -i /home/krill/cngb_keyfile \
+            -P33001 -T -k1 -l1000m \
+            aspera_download@183.239.175.39:{params.ftp}/{params.rev_md5} \
+            results/ascp_reverse_md5/{wildcards.sample_id}/{wildcards.rev_md5}.tmp &> {log}
+        NAM=$(cat results/ascp_reverse_md5/{wildcards.sample_id}/{wildcards.rev_md5}.tmp | cut -f 1 -d " ")
+        HEX=$(cat results/ascp_reverse_md5/{wildcards.sample_id}/{wildcards.rev_md5}.tmp | cut -f 2 -d " ")
+        echo -e "${{HEX}}  results/ascp_reverse_md5/{wildcards.sample_id}/${{NAM}}" > results/ascp_reverse_md5/{wildcards.sample_id}/{wildcards.rev_md5}
+        """
+
+rule md5sum_check_forward:
+    params:
+        fwd = lambda wildcards: wildcards.fwd,
+    input:
+        fwd = "results/ascp_forward/{sample_id}/{fwd}",
+        md5 = "results/ascp_forward_md5/{sample_id}/{fwd}.md5",
+    output:
+        "results/md5sum_check_forward/{sample_id}/{fwd}.txt"
+    log:
+        "logs/md5sum_check_forward/{sample_id}/{fwd}.log",
+    conda:
+        "../envs/conda_env.yaml"
+    shell:
+        """
+        md5sum -c {input.md5} 1> {output} 2> {log}
+        """
+
+rule md5sum_check_reverse:
+    params:
+        rev = lambda wildcards: wildcards.rev,
+    input:
+        rev = "results/ascp_reverse/{sample_id}/{rev}",
+        md5 = "results/ascp_reverse_md5/{sample_id}/{rev}.md5",
+    output:
+        "results/md5sum_check_reverse/{sample_id}/{rev}.txt"
+    log:
+        "logs/md5sum_check_reverse/{sample_id}/{rev}.log",
+    conda:
+        "../envs/conda_env.yaml"
+    shell:
+        """
+        md5sum -c {input.md5} 1> {output} 2> {log}
+        """
+
+rule fastp:
+    input:
+        sample=get_fastp_input,
+    output:
+        trimmed = [temp("results/fastp/{sample_id}_R1.fastq.gz"), temp("results/fastp/{sample_id}_R2.fastq.gz")],
+        unpaired1 = temp("results/fastp/{sample_id}_u1.fastq.gz"),
+        unpaired2 = temp("results/fastp/{sample_id}_u2.fastq.gz"),
+        failed = temp("results/fastp/{sample_id}.failed.fastq.gz"),
+        html="results/fastp/{sample_id}_fastp.html",
+        json="results/fastp/{sample_id}_fastp.json",
+    log:
+        "logs/fastp/{sample_id}.log",
+    params:
+        "--adapter_sequence ACGGCTAGCTA --adapter_sequence_r2 AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC"
+    threads: 2
+    wrapper:
+        "v3.13.8/bio/fastp"
