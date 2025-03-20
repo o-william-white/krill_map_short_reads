@@ -2,7 +2,7 @@ rule samtools_view:
     input:
         "results/bwa_mem/{sample}.sam",
     output:
-        bam="results/samtools_view/{sample}.bam",
+        bam=temp("results/samtools_view/{sample}.bam"),
     log:
         "logs/samtools_view/{sample}.log",
     params:

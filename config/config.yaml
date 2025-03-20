@@ -1,8 +1,7 @@
 # path to sample list
-samples: config/sample_list.txt
+samples: config/sample_list_selection.txt
 
-# path to read groups file
-read_groups: config/read_groups.txt
+# note read groups set in bcftools mpileup rule
 
 # path to reference
 reference: /home/krill/krill.chromosome.fa.gz

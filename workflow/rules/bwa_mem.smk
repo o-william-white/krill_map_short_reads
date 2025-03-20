@@ -3,7 +3,7 @@ rule bwa_mem:
         reads=["results/fastp/{sample}_R1.fastq.gz", "results/fastp/{sample}_R2.fastq.gz"],
         idx=multiext("results/seqkit_sliding/krill.chromosome_s2g_renamed.fa.gz", ".amb", ".ann", ".bwt", ".pac", ".sa"),
     output:
-        "results/bwa_mem/{sample}.sam",
+        temp("results/bwa_mem/{sample}.sam"),
     log:
         "logs/bwa_mem/{sample}.log",
     conda:
